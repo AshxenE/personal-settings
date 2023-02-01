@@ -4,47 +4,42 @@
         v-model="form.oldPassword"
         label="Старый пароль"
         required
-        :errorText="errors.oldPassword"
+        :errorText="form.oldPassword && errors.oldPassword"
     ></UiInput>
     <UiInput
         v-model="form.newPassword"
-        :errorText="errors.newPassword"
-        name="password"
-        type="password"
-        label="новый пароль"
-        placeholder="Password"
-        ref="password"
+        :errorText="form.newPassword && errors.newPassword"
+        password
+        label="Новый пароль"
+        required
     ></UiInput>
     <UiInput
         v-model="form.repeatPassword"
         label="Подтвердите новый пароль"
-        required
         type="password"
-        :errorText="errors.repeatPassword"
+        required
+        :errorText="form.repeatPassword && errors.repeatPassword"
     ></UiInput>
     <UiButton
         @click="saveChanges"
         class="change-password__button"
         width="230px"
-        :disabled="!meta.valid"
+        :disabled="Object.keys(errors).length"
     >Сохранить изменения</UiButton>
 
     <UiLoader v-if="isOpenLoader"/>
-    <UiAlert v-model="isOpenAlert" >Пользователи созданные в этой компании и приглашенные в другие, не будут удалены.</UiAlert>
+    <UiAlert v-model="isOpenAlert" >Пароль изменен</UiAlert>
   </div>
 </template>
 
 <script setup>
-import {reactive, ref} from "vue";
+import { reactive, ref } from "vue";
 import { useForm } from 'vee-validate';
-import { useStore } from '@/store'
 
 import UiInput from '@/components/ui/input'
 import UiLoader from '@/components/ui/loader'
 import UiAlert from '@/components/ui/alert'
 import UiButton from '@/components/ui/button'
-
-const store = useStore()
 
 const isOpenLoader = ref(false)
 const isOpenAlert = ref(false)
@@ -71,7 +66,6 @@ const simpleSchema = {
 
     return 'Обязательные поля';
   },
-
   repeatPassword(value) {
     if (value && value.trim()) {
       if (value === form.newPassword) {
@@ -85,22 +79,17 @@ const simpleSchema = {
   },
 }
 
-const saveChanges = () => {
-  store.changeUserInfo(form)
-
-  if (form.repeatPassword && form.oldPassword) {
-    isOpenLoader.value = true
-
-    setTimeout(() => {
-      isOpenLoader.value = false
-      isOpenAlert.value = true
-    }, 2500)
-  }
-}
-
-const { meta, errors, useFieldModel } = useForm({
+const { errors, useFieldModel } = useForm({
   validationSchema: simpleSchema,
 });
+
+const saveChanges = () => {
+  isOpenLoader.value = true
+  setTimeout(() => {
+    isOpenLoader.value = false
+    isOpenAlert.value = true
+  }, 2500)
+}
 
 form.oldPassword = useFieldModel('oldPassword');
 form.newPassword = useFieldModel('newPassword');
@@ -108,7 +97,7 @@ form.repeatPassword = useFieldModel('repeatPassword');
 
 </script>
 
-<style scoped lang-scss>
+<style scoped lang="scss">
 .change-password {
   display: flex;
   max-width: 700px;

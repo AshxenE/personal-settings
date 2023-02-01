@@ -11,9 +11,6 @@
           onlyDate
           no-button-now
       />
-      <div class="datepicker__icon-date">
-        <UiIcon value="calendar" width="36px" height="36px" />
-      </div>
       <transition name="slide-fade" appear>
         <div v-if="error && errorText" class="input__error">
           {{ errorText }}
@@ -26,8 +23,6 @@
 
 <script setup>
 import { defineProps, defineEmits, ref, onMounted } from 'vue'
-
-import UiIcon from './icon'
 
 defineEmits(['update:modelValue', 'change'])
 

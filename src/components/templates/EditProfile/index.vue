@@ -69,9 +69,8 @@
           label="Номер телефона"
           mask="+7 (####) ###-##-##"
       ></UiInput>
-      <UiInput v-model="form.language" label="Владение языками"></UiInput>
       <UiAutocomplete
-          v-model="form.autocomplete"
+          v-model="form.language"
           label="Владение языками"
           :options="autocompleteInfo"
       />
@@ -119,19 +118,44 @@ const form = reactive({
 })
 const autocompleteInfo = ref( [
   {
-    text:'asddd'
+    id: 1,
+    text: 'English'
   },
   {
-    text:'asddddsdk'
+    id: 2,
+    text:'Abkhaz'
   },
   {
-    text:'jjjjhsdkslaaaa'
+    id: 3,
+    text:'Albanian'
   },
   {
-    text:'asdddffkj'
+    id: 4,
+    text:'Arabic'
   },
   {
-    text:'ggggggg'
+    id: 5,
+    text:'Portuguese'
+  },
+  {
+    id: 6,
+    text:'Armenian'
+  },
+  {
+    id: 7,
+    text:'Russian'
+  },
+  {
+    id: 8,
+    text:'German'
+  },
+  {
+    id: 9,
+    text:'French'
+  },
+  {
+    id: 10,
+    text:'Dutch'
   }
 ])
 
